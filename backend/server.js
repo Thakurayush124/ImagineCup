@@ -55,6 +55,7 @@ app.post('/api/predict/:modelName', (req, res) => {
             if (result.error) {
                 return res.status(400).json({ error: result.error });
             }
+            console.log('Result:', result);
             res.json(result);
         } catch (err) {
             console.error('Error parsing Python response:', err.message);
