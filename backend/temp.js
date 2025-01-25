@@ -12,6 +12,5 @@ const callWildlifeTrendEndpoint = async () => {
       console.error("Error calling Wildlife Trend endpoint:", error);
     }
   };
-  
-  callWildlifeTrendEndpoint();
+
   

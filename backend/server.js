@@ -1,8 +1,12 @@
 const express = require('express');
 const { spawn } = require('child_process');
 const path = require('path');
+const cors = require('cors'); // Import CORS
 
 const app = express();
+
+// Enable CORS for all origins (or restrict it to your frontend)
+app.use(cors());
 app.use(express.json());
 
 // Dynamic prediction endpoint
