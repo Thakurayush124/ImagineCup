@@ -4,6 +4,8 @@ const HeroSection = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+
+  
   const newsItems = [
     {
       image: "/api/placeholder/400/300",
@@ -39,13 +41,58 @@ const HeroSection = () => {
       reader.readAsDataURL(file);
     }
   };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (selectedImage) {
-      setIsSubmitted(true);
+      try {
+        // Remove previous image if exists
+        const previousImageElement = document.querySelector('.preview-image');
+        if (previousImageElement) {
+          previousImageElement.remove();
+        }
+  
+        // Remove the data:image prefix to get the base64 encoded image
+        const base64Image = selectedImage.split(',')[1];
+  
+        // Send image to Roboflow for animal detection
+        const response = await fetch('https://detect.roboflow.com/animal-detection-yolov8/1', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: base64Image,
+          params: {
+            api_key: 'CD5wfK2Z9BOgliQxrlv9'
+          }
+        });
+  
+        if (response.ok) {
+          const detectionResults = await response.json();
+          console.log('Animal Detection Results:', detectionResults);
+  
+          // Upload to server with detection results
+          const formData = new FormData();
+          formData.append('image', base64Image);
+          formData.append('detectionResults', JSON.stringify(detectionResults));
+  
+          const uploadResponse = await fetch('', {
+            method: 'POST',
+            body: formData
+          });
+  
+          if (uploadResponse.ok) {
+            setIsSubmitted(true);
+          } else {
+            throw new Error('Upload failed');
+          }
+        } else {
+          throw new Error('Detection failed');
+        }
+      } catch (error) {
+        console.error('Error processing image:', error);
+        alert('Failed to process image');
+      }
     }
   };
-
   return (
     <div>
       {/* Hero Section */}
