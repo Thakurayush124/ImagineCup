@@ -41,51 +41,34 @@ const HeroSection = () => {
       reader.readAsDataURL(file);
     }
   };
+ 
   const handleSubmit = async () => {
     if (selectedImage) {
       try {
-        // Remove previous image if exists
-        const previousImageElement = document.querySelector('.preview-image');
-        if (previousImageElement) {
-          previousImageElement.remove();
-        }
-  
         // Remove the data:image prefix to get the base64 encoded image
         const base64Image = selectedImage.split(',')[1];
   
-        // Send image to Roboflow for animal detection
-        const response = await fetch('https://detect.roboflow.com/animal-detection-yolov8/1', {
+        // Call Roboflow API for image verification
+        const roboflowModelURL = 'https://api.roboflow.com/your_model_endpoint';  // Replace with your model URL
+        const apiKey = 'your_roboflow_api_key';  // Replace with your Roboflow API key
+  
+        const response = await fetch(roboflowModelURL, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
           },
-          body: base64Image,
-          params: {
-            api_key: 'CD5wfK2Z9BOgliQxrlv9'
-          }
+          body: JSON.stringify({ image: base64Image }),
         });
   
-        if (response.ok) {
-          const detectionResults = await response.json();
-          console.log('Animal Detection Results:', detectionResults);
+        const result = await response.json();
   
-          // Upload to server with detection results
-          const formData = new FormData();
-          formData.append('image', base64Image);
-          formData.append('detectionResults', JSON.stringify(detectionResults));
-  
-          const uploadResponse = await fetch('', {
-            method: 'POST',
-            body: formData
-          });
-  
-          if (uploadResponse.ok) {
-            setIsSubmitted(true);
-          } else {
-            throw new Error('Upload failed');
-          }
+        if (result && result.prediction && result.prediction.label === 'animal') {
+          // If the image is verified as an animal, store it in localStorage or in memory
+          localStorage.setItem('verifiedAnimalImage', selectedImage);  // Save the base64 image string in localStorage
+          alert('Image is an animal and has been saved successfully!');
         } else {
-          throw new Error('Detection failed');
+          alert('The image does not contain an animal.');
         }
       } catch (error) {
         console.error('Error processing image:', error);
@@ -93,6 +76,7 @@ const HeroSection = () => {
       }
     }
   };
+  
   return (
     <div>
       {/* Hero Section */}

@@ -1,34 +1,29 @@
 import React, { useState } from 'react';
+
 const newsItems = [
-    {
-      image: "/api/placeholder/400/300",
-      title: "CEPF 2023 Impact and Annual Report",
-      description: "CEPF's grantees are doing great things for biodiversity and people. Read all about it in the latest Impact Report.",
-      link: "#",
-      linkText: "LEARN MORE"
-    },
-    {
-      image: "/api/placeholder/400/300",
-      title: "CEPF to Collaborate With Conservation International for GEF Small Grants Program",
-      description: "With Conservation International as a New Implementing Agency, CEPF Will Serve as Delivery Mechanism",
-      link: "#",
-      linkText: "READ MORE"
-    },
-    {
-      image: "/api/placeholder/400/300",
-      title: "Government of Canada Provides US$14.4 Million for Biodiversity and Gender Equity",
-      description: "Funding will support efforts in the Tropical Andes, Cerrado and Indo-Burma biodiversity hotspots",
-      link: "#",
-      linkText: "READ MORE"
-    },
-    {
-        image: "/api/placeholder/400/300",
-        title: "Government of Canada Provides US$14.4 Million for Biodiversity and Gender Equity",
-        description: "Funding will support efforts in the Tropical Andes, Cerrado and Indo-Burma biodiversity hotspots",
-        link: "#",
-        linkText: "READ MORE"
-      },
-  ];
+  {
+    image: "fs1.png",
+    title: "Enter Data:",
+    description: " Input values for the five key features.",
+    link: "#",
+    linkText: "LEARN MORE"
+  },
+  {
+    image: "fs2.png",
+    title: "Predict:",
+    description: " Click  Predict to receive results Increase in Forest Reduction Decrease in Forest Reduction",
+    link: "#",
+    linkText: "READ MORE"
+  },
+  {
+    image: "fs3.png",
+    title: "Analyze:",
+    description: "View a breakdown of how each feature influenced the result.",
+    link: "#",
+    linkText: "READ MORE"
+  }
+];
+
 
 const ForestReductionCalculator = () => {
   const [inputs, setInputs] = useState({
@@ -39,8 +34,9 @@ const ForestReductionCalculator = () => {
     tribalPopulation: 0
   });
 
-  const [forestReduction, setForestReduction] = useState(null);
+  const [output, setOutput] = useState(null);
 
+  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputs(prev => ({
@@ -49,7 +45,46 @@ const ForestReductionCalculator = () => {
     }));
   };
 
-  const calculateForestReduction = () => {
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
+  // Function to send data to the backend and get the response
+  const callforest_insights = async (features) => {
+    console.log("Sending features to API:", features);
+  
+    try {
+      const response = await fetch(`${backendUrl}/forest_insights`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ features: features }),
+      });
+  
+      const data = await response.json();
+  
+      if (data) {
+        console.log("Prediction Result:", data);
+  
+        // Now, adjust this logic based on the new response structure
+        const trend = data.predicted_forest_area_reduction > 0
+          ? 'Deforestation Increasing'
+          : 'Deforestation Decreasing'; // Example logic to interpret the reduction
+        const impactScore = data.predicted_forest_area_reduction.toFixed(2); // Display the predicted reduction rounded to two decimal places
+  
+        return { trend, impactScore };
+      } else {
+        console.error("Unexpected response structure:", data);
+        return { trend: 'Error', impactScore: 'Error' };
+      }
+    } catch (error) {
+      console.error("Error calling Forest Insights endpoint:", error);
+      return { trend: 'Error', impactScore: 'Error' };
+    }
+  };
+  
+
+  // Analyze inputs and send them to the API
+  const analyzeWildlifeChanges = async () => {
     const { 
       humanCivilizationRate, 
       carbonEmissionRate, 
@@ -58,89 +93,32 @@ const ForestReductionCalculator = () => {
       tribalPopulation 
     } = inputs;
 
-    const reduction = (
-      humanCivilizationRate * 0.3 + 
-      carbonEmissionRate * 0.25 + 
-      factoriesSetupRate * 0.2 - 
-      tribalPopulation * 0.05 - 
-      dependencyOnForestProducts * 0.1
-    ).toFixed(2);
+    const features = [
+      humanCivilizationRate,
+      carbonEmissionRate,
+      factoriesSetupRate,
+      dependencyOnForestProducts,
+      tribalPopulation
+    ];
 
-    setForestReduction(Math.max(0, Math.min(100, reduction)));
+    // Call the API and get the prediction data
+    const predictionData = await callforest_insights(features);
+
+    // Set the output data
+    setOutput({
+      trend: predictionData.trend,
+      impactScore: predictionData.impactScore
+    });
   };
-
-  // Custom SVG Icons
-  const TreeIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c5e2c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 5v14" />
-      <path d="M12 5c0 4 3 8 7 8" />
-      <path d="M12 5c0 4-3 8-7 8" />
-      <path d="M12 19c0-4 3-8 7-8" />
-      <path d="M12 19c0-4-3-8-7-8" />
-    </svg>
-  );
-
-  const GlobeIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2c5e2c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-      <path d="M2 12h20" />
-    </svg>
-  );
-
-  const UsersIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
-  );
-
-  const CloudIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z" />
-    </svg>
-  );
-
-  const FactoryIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
-      <path d="M17 18h1" />
-      <path d="M12 18h1" />
-      <path d="M7 18h1" />
-    </svg>
-  );
 
   const styles = {
     container: {
       maxWidth: '700px',
-      margin: '0 auto',
+      margin: '5% auto',
       padding: '20px',
       background: 'linear-gradient(135deg, #e6f3e6, #c2e0c2)',
       borderRadius: '15px',
       boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-    },
-    heading: {
-      textAlign: 'center',
-      color: '#2c5e2c',
-      marginBottom: '20px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '10px'
-    },
-    instructionSection: {
-      backgroundColor: 'rgba(255,255,255,0.6)',
-      borderRadius: '10px',
-      padding: '15px',
-      marginBottom: '20px'
-    },
-    instructionItem: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '10px',
-      marginBottom: '10px'
     },
     inputGrid: {
       display: 'grid',
@@ -153,10 +131,7 @@ const ForestReductionCalculator = () => {
     },
     label: {
       marginBottom: '5px',
-      color: '#3a7a3a',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '5px'
+      color: '#3a7a3a'
     },
     input: {
       padding: '10px',
@@ -164,7 +139,7 @@ const ForestReductionCalculator = () => {
       borderRadius: '5px',
       backgroundColor: '#f0f9f0'
     },
-    calculateBtn: {
+    button: {
       width: '100%',
       padding: '12px',
       marginTop: '20px',
@@ -179,22 +154,23 @@ const ForestReductionCalculator = () => {
       marginTop: '20px',
       textAlign: 'center'
     },
-    reductionMeter: {
-      height: '30px',
-      background: 'linear-gradient(to right, #ff6347, #ff4500)',
-      borderRadius: '15px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'white',
-      fontWeight: 'bold',
-      transition: 'width 0.5s ease'
+    resultCard: {
+      background: '#fff',
+      padding: '15px',
+      borderRadius: '10px',
+      boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
+      marginTop: '20px'
+    },
+    resultText: {
+      fontSize: '18px',
+      fontWeight: 'bold'
     }
   };
 
   return (
-    <>
-     <div className="news-container">
+
+     <>
+    <div className="news-container">
         <h2>How to use</h2>
         <div className="news-grid">
           {newsItems.map((item, index) => (
@@ -214,32 +190,11 @@ const ForestReductionCalculator = () => {
         
       </div>
     <div style={styles.container}>
-      <h1 style={styles.heading}>
-        <TreeIcon />
-        Forest Area Reduction Calculator
-        <GlobeIcon />
-      </h1>
+      <h1>Deforestation Prediction</h1>
 
-      <div style={styles.instructionSection}>
-        <div style={styles.instructionItem}>
-          <UsersIcon /> 
-          <strong>Human Civilization Rate:</strong> Impact of urban expansion (0-100)
-        </div>
-        <div style={styles.instructionItem}>
-          <CloudIcon /> 
-          <strong>Carbon Emission Rate:</strong> Pollution's effect on forests (0-100)
-        </div>
-        <div style={styles.instructionItem}>
-          <FactoryIcon /> 
-          <strong>Factories Setup Rate:</strong> Industrial development impact (0-100)
-        </div>
-      </div>
-      
       <div style={styles.inputGrid}>
         <div style={styles.inputGroup}>
-          <label style={styles.label}>
-            <UsersIcon /> Human Civilization Rate
-          </label>
+          <label style={styles.label}>Human Civilization Rate</label>
           <input 
             type="number" 
             name="humanCivilizationRate"
@@ -252,9 +207,7 @@ const ForestReductionCalculator = () => {
         </div>
 
         <div style={styles.inputGroup}>
-          <label style={styles.label}>
-            <CloudIcon /> Carbon Emission Rate
-          </label>
+          <label style={styles.label}>Carbon Emission Rate</label>
           <input 
             type="number" 
             name="carbonEmissionRate"
@@ -267,9 +220,7 @@ const ForestReductionCalculator = () => {
         </div>
 
         <div style={styles.inputGroup}>
-          <label style={styles.label}>
-            <FactoryIcon /> Factories Setup Rate
-          </label>
+          <label style={styles.label}>Factories Setup Rate</label>
           <input 
             type="number" 
             name="factoriesSetupRate"
@@ -282,9 +233,7 @@ const ForestReductionCalculator = () => {
         </div>
 
         <div style={styles.inputGroup}>
-          <label style={styles.label}>
-            <TreeIcon /> Dependency on Forest Products
-          </label>
+          <label style={styles.label}>Dependency on Forest Products</label>
           <input 
             type="number" 
             name="dependencyOnForestProducts"
@@ -297,9 +246,7 @@ const ForestReductionCalculator = () => {
         </div>
 
         <div style={styles.inputGroup}>
-          <label style={styles.label}>
-            <UsersIcon /> Tribal Population
-          </label>
+          <label style={styles.label}>Tribal Population</label>
           <input 
             type="number" 
             name="tribalPopulation"
@@ -313,31 +260,26 @@ const ForestReductionCalculator = () => {
       </div>
 
       <button 
-        onClick={calculateForestReduction} 
-        style={styles.calculateBtn}
+        onClick={analyzeWildlifeChanges} 
+        style={styles.button}
       >
-        Calculate Forest Reduction
+        Predict Wildlife Impact
       </button>
 
-      {forestReduction !== null && (
+      {output && (
         <div style={styles.resultContainer}>
-          <h2>Forest Area Reduction</h2>
-          <div 
-            style={{
-              ...styles.reductionMeter,
-              width: `${forestReduction}%`
-            }}
-          >
-            {forestReduction}%
+          <div style={styles.resultCard}>
+            <p style={styles.resultText}>Wildlife Population Trend: {output.trend}</p>
+            <p style={styles.resultText}>Impact Intensity: {output.impactScore}</p>
           </div>
         </div>
       )}
     </div>
-    <style>
-        {
-`
-.news-container {
-          max-width: 1200px;
+    <style>{
+      
+      `
+        .news-container {
+          max-width: 1000px;
           margin: 0 auto;
           padding: 3rem 2rem;
         }
@@ -351,7 +293,7 @@ const ForestReductionCalculator = () => {
 
         .news-grid {
           display: grid;
-          grid-template-columns: repeat(1, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 2rem;
         }
 
@@ -367,9 +309,9 @@ const ForestReductionCalculator = () => {
         }
 
         .news-image {
-          width: 100%;
+          width: 80%;
           height: 200px;
-          object-fit: cover;
+          
         }
 
         .news-content {
@@ -386,6 +328,7 @@ const ForestReductionCalculator = () => {
           color: #666;
           margin-bottom: 1rem;
           line-height: 1.6;
+          text-align: center;
         }
 
         .news-link {
@@ -404,18 +347,8 @@ const ForestReductionCalculator = () => {
 
         .plus-icon {
           font-size: 1.2rem;
-        }
-
-        @media (min-width: 768px) {
-          .news-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-`
-
-        }
-    </style>
+        }`}
+      </style>
     </>
   );
 };

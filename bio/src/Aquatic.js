@@ -7,13 +7,56 @@ const AquaticMonitoring = () => {
       maxWidth: '900px',
       margin: '3% auto',
       padding: '20px',
-      backgroundColor: 'white',
-      
+      backgroundColor: '#e6f7ff',
       borderRadius: '15px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     },
+  
     introSection: {
       textAlign: 'center',
       marginBottom: '30px',
+    },
+    instructions: {
+      backgroundColor: '#f4f9ff',
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      marginTop: '30px',
+    },
+    instructionsContent: {
+      display: 'flex',  // Use flexbox to arrange text and image side by side
+      justifyContent: 'space-between',  // Space between the text and image
+      alignItems: 'center',  // Align items vertically in the center
+    },
+    textSection: {
+      flex: 1,  // This allows the text to take up the remaining space
+      textAlign: 'left',
+      marginRight: '160px',
+     
+    },
+    imageSection: {
+      flex: 1,  // This allows the image to take up the remaining space
+      textAlign: 'center',
+    },
+    instructionsTitle: {
+      fontSize: '1.4rem',
+      fontWeight: 'bold',
+      color: '#4a90e2',
+      marginBottom: '20px',
+    },
+    instructionsList: {
+      listStyleType: 'none',
+      textAlign: 'left',
+    },
+    instructionItem: {
+      fontSize: '1rem',
+      color: 'black',
+      marginBottom: '10px',
+    },
+    image: {
+      maxWidth: '100%',  // Make sure the image doesn't overflow
+      height: 'auto',  // Maintain aspect ratio of the image
+      borderRadius: '10px',  // Optional: if you want to round the image corners
     },
     infCards: {
       display: 'flex',
@@ -28,6 +71,7 @@ const AquaticMonitoring = () => {
       borderRadius: '10px',
       textAlign: 'center',
       transition: 'transform 0.3s ease',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     },
     infoCardHover: {
       transform: 'scale(1.05)',
@@ -42,6 +86,7 @@ const AquaticMonitoring = () => {
       backgroundColor: '#f4f9ff',
       padding: '30px',
       borderRadius: '15px',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     },
     formGrid: {
       display: 'grid',
@@ -53,6 +98,12 @@ const AquaticMonitoring = () => {
       padding: '12px',
       border: '1px solid #b0d4ff',
       borderRadius: '8px',
+      backgroundColor: '#fff',
+      transition: '0.3s ease',
+    },
+    inputFocus: {
+      outline: 'none',
+      borderColor: '#4a90e2',
     },
     submitBtn: {
       width: '100%',
@@ -64,6 +115,9 @@ const AquaticMonitoring = () => {
       marginTop: '20px',
       cursor: 'pointer',
       transition: 'background-color 0.3s ease',
+    },
+    submitBtnHover: {
+      backgroundColor: '#357abd',
     },
     resultSection: {
       marginTop: '30px',
@@ -79,19 +133,49 @@ const AquaticMonitoring = () => {
       padding: '20px',
       backgroundColor: '#e6f2ff',
       borderRadius: '10px',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+    },
+    cardTitle: {
+      fontSize: '1.2rem',
+      fontWeight: 'bold',
+      color: '#4a90e2',
+    },
+    cardText: {
+      fontSize: '1.1rem',
+      color: '#333',
+    },
+    instructionsTitle: {
+      fontSize: '1.4rem',
+      fontWeight: 'bold',
+      color: '#4a90e2',
+      marginBottom: '20px',
+    },
+    instructionsList: {
+      listStyleType: 'decimal',
+      textAlign: 'left',
+     
+    },
+    instructionItem: {
+      fontSize: '1rem',
+      color: 'black',
+      marginBottom: '10px',
+
+      
+
     },
   };
 
   const [formData, setFormData] = useState({
-    location: '',
-    waterType: '',
-    surveyDate: '',
-    speciesCount: '',
-    observationMethod: ''
+    turbidity: '',
+    pH_Level: '',
+    salinity: '',
+    waterTemperature: '',
+    dissolvedOxygen: ''
   });
 
   const [results, setResults] = useState(null);
 
+  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -100,140 +184,177 @@ const AquaticMonitoring = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Simulate monitoring result generation
+  
+
+  // Function to send data to the backend and get the response
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  console.log('Backend URL:', backendUrl);
+
+  // Function to send data to the backend and get the response
+  const callAquaticInsights = async (features) => {
+    console.log("Sending features to API:", features);
+  
+    try {
+      const response = await fetch(`${backendUrl}/aquatic`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ features: features }),
+      });
+  
+      const data = await response.json();
+  
+      if (data) {
+        console.log("Prediction Result:", data);
+  
+        // Now, adjust this logic based on the new response structure
+        const trend = data.interpretation; // "increased" or other interpretation
+        const healthStatus = data.predicted_class === 1 ? 'Good' : 'Poor'; // Example logic
+  
+        return { trend, healthStatus };
+      } else {
+        console.error("Unexpected response structure:", data);
+        return { trend: 'Error', healthStatus: 'Error' };
+      }
+    } catch (error) {
+      console.error("Error calling Aquatic Insights endpoint:", error);
+      return { trend: 'Error', healthStatus: 'Error' };
+    }
+  };
+  
+  
+  // Analyze inputs and send them to the API
+  const analyzeAquaticChanges = async () => {
+    const { turbidity, pH_Level, salinity, waterTemperature, dissolvedOxygen } = formData;
+
+    const features = [
+      turbidity,
+      pH_Level,
+      salinity,
+      waterTemperature,
+      dissolvedOxygen
+    ];
+
+    // Call the API and get the prediction data
+    const predictionData = await callAquaticInsights(features);
+
+    // Set the output data
     setResults({
-      biodiversityIndex: Math.random() * 100,
-      speciesDetected: Math.floor(Math.random() * 20),
-      healthStatus: ['Healthy', 'Moderate', 'Critical'][Math.floor(Math.random() * 3)]
+      trend: predictionData.trend,
+      healthStatus: predictionData.healthStatus
     });
   };
 
-  // SVG Icons 
-  const FishIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={styles.infoCardSvg}>
-      <path d="M12 22c4.1 0 7.5-2.9 8-7 .5-5-3-8.5-8-8.5S4 10 4 15c.5 4.1 3.9 7 8 7z"/>
-      <path d="M10 12.5L12.5 10"/>
-      <path d="M16 11c-1.5-1.5-3.5 0-3.5 0"/>
-    </svg>
-  );
-
-  const SeaIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={styles.infoCardSvg}>
-      <path d="M12 3a7 7 0 0 0-7 7v4a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4v-4a7 7 0 0 0-7-7z"/>
-      <path d="M12 19v3"/>
-      <path d="M8 22h8"/>
-      <path d="M6 10h12"/>
-    </svg>
-  );
-
-  const DataIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={styles.infoCardSvg}>
-      <path d="M3 3v18h18"/>
-      <path d="M18 17V9"/>
-      <path d="M13 17V5"/>
-      <path d="M8 17v-3"/>
-    </svg>
-  );
-
   return (
     <div style={styles.container}>
-      <div style={styles.introSection}>
-        <h1>🌊 Aquatic Animal Monitoring System</h1>
-        <div style={styles.infCards}>
-          <div style={styles.infoCard} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-            <FishIcon />
-            <h3>Purpose</h3>
-            <p>Track and analyze aquatic ecosystem biodiversity</p>
+    <div style={styles.introSection}>
+      <h1 >🌊 Aquatic Monitoring System</h1>
+      <div style={styles.instructions}>
+        <h2 style={styles.instructionsTitle}>How to Use the Aquatic Monitoring System</h2>
+        <div style={styles.instructionsContent}>
+          <div style={styles.textSection}>
+            <ol style={styles.instructionsList}>
+              <li style={styles.instructionItem}>
+                Input the water quality data :
+                Enter turbidity (NTU), pH level, salinity (ppt), water temperature (°C), and dissolved oxygen (mg/L).
+                
+              </li>
+              <li style={styles.instructionItem}>
+                Select the water type :
+                Choose between "Marine", "Freshwater", or "Brackish".
+                
+              </li>
+              <li style={styles.instructionItem}>
+               Submit the data :
+               Click "Generate Ecosystem Report" to submit your data for analysis.
+                
+              </li>
+              <li style={styles.instructionItem}>
+                Review the results :
+                View the Water Quality Trend and the Health Status of the ecosystem based on the data you provided.
+                
+              </li>
+            </ol>
           </div>
-          <div style={styles.infoCard} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-            <SeaIcon />
-            <h3>Methodology</h3>
-            <p>Advanced survey techniques for marine life tracking</p>
-          </div>
-          <div style={styles.infoCard} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-            <DataIcon />
-            <h3>Insights</h3>
-            <p>Generate comprehensive ecosystem reports</p>
+          <div style={styles.imageSection}>
+            <img
+              src="aq.png" // Replace this with the actual path to your image
+              alt="Aquatic Monitoring"
+              style={styles.image}
+            />
           </div>
         </div>
       </div>
+    </div>
 
-      <form onSubmit={handleSubmit} style={styles.form}>
+  
+
+      <form onSubmit={(e) => {e.preventDefault(); analyzeAquaticChanges();}} style={styles.form}>
         <h2>Survey Input</h2>
         <div style={styles.formGrid}>
           <input
-            type="text"
-            name="location"
-            placeholder="Survey Location"
-            value={formData.location}
-            onChange={handleInputChange}
-            required
-            style={styles.input}
-          />
-          <select
-            name="waterType"
-            value={formData.waterType}
-            onChange={handleInputChange}
-            required
-            style={styles.input}
-          >
-            <option value="">Select Water Type</option>
-            <option value="marine">Marine</option>
-            <option value="freshwater">Freshwater</option>
-            <option value="brackish">Brackish</option>
-          </select>
-          <input
-            type="date"
-            name="surveyDate"
-            value={formData.surveyDate}
+            type="number"
+            name="turbidity"
+            placeholder="Turbidity (NTU)"
+            value={formData.turbidity}
             onChange={handleInputChange}
             required
             style={styles.input}
           />
           <input
             type="number"
-            name="speciesCount"
-            placeholder="Estimated Species Count"
-            value={formData.speciesCount}
+            name="pH_Level"
+            placeholder="pH Level"
+            value={formData.pH_Level}
             onChange={handleInputChange}
             required
             style={styles.input}
           />
-          <select
-            name="observationMethod"
-            value={formData.observationMethod}
+          <input
+            type="number"
+            name="salinity"
+            placeholder="Salinity (ppt)"
+            value={formData.salinity}
             onChange={handleInputChange}
             required
             style={styles.input}
-          >
-            <option value="">Observation Method</option>
-            <option value="underwater">Underwater Camera</option>
-            <option value="sonar">Sonar Tracking</option>
-            <option value="drone">Drone Survey</option>
-          </select>
+          />
+          <input
+            type="number"
+            name="waterTemperature"
+            placeholder="Water Temperature (°C)"
+            value={formData.waterTemperature}
+            onChange={handleInputChange}
+            required
+            style={styles.input}
+          />
+          <input
+            type="number"
+            name="dissolvedOxygen"
+            placeholder="Dissolved Oxygen (mg/L)"
+            value={formData.dissolvedOxygen}
+            onChange={handleInputChange}
+            required
+            style={styles.input}
+          />
         </div>
-        <button type="submit" style={{...styles.submitBtn, ':hover': {backgroundColor: '#357abd'}}}>
+        <button type="submit" style={styles.submitBtn}>
           Generate Ecosystem Report
         </button>
       </form>
 
       {results && (
         <div style={styles.resultSection}>
-          <h2>Ecosystem Analysis Results</h2>
+          <h2>Ecosystem Health Results</h2>
           <div style={styles.resultCards}>
             <div style={styles.resultCard}>
-              <h3>Biodiversity Index</h3>
-              <p>{results.biodiversityIndex.toFixed(2)}/100</p>
+              <h3 style={styles.cardTitle}>Aquatic life Trend</h3>
+              <p style={styles.cardText}>{results.trend}</p>
             </div>
             <div style={styles.resultCard}>
-              <h3>Species Detected</h3>
-              <p>{results.speciesDetected}</p>
-            </div>
-            <div style={styles.resultCard}>
-              <h3>Ecosystem Health</h3>
-              <p>{results.healthStatus}</p>
+              <h3 style={styles.cardTitle}>Health Status</h3>
+              <p style={styles.cardText}>{results.healthStatus}</p>
             </div>
           </div>
         </div>
