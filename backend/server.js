@@ -4,14 +4,10 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const cors = require('cors'); // Import CORS
 
 const app = express();
 const upload = multer({ dest: 'public/Temp/' });
 
-
-// Enable CORS for all origins (or restrict it to your frontend)
-app.use(cors());
 app.use(express.json());
 
 app.use(cors({
