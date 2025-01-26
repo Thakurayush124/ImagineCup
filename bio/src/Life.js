@@ -1,18 +1,48 @@
 import React, { useState } from 'react';
 
+
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
+
+const callWildlifeTrendEndpoint = (features) => {
+  console.log("Opening test.js with features:", features);
+
+  return fetch(`${backendUrl}/wildlife_trend`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ features: features })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("API Response Data:", data);
+    
+    if (data && data.interpretation) {
+      const trend = data.interpretation; // 'increased' or other interpretations
+      const impactScore = data.predicted_class; // Use predicted_class as impactScore (adjust based on your needs)
+      
+      return { trend, impactScore };
+    } else {
+      console.error("Unexpected response structure:", data);
+      return { trend: 'Error', impactScore: 'Error' }; // Default response in case of error
+    }
+  })
+  .catch(error => {
+    console.error("Error calling Wildlife Trend endpoint:", error);
+    return { trend: 'Error', impactScore: 'Error' };
+  });
+};
+
 const WildlifeMonitorDashboard = () => {
   const [inputs, setInputs] = useState({
-    year: 2023,
-    region: '',
+   
     deforestationRate: 0,
     urbanizationRate: 0,
-    protectedAreaCoverage: 0,
-    humanPopulationDensity: 0,
     illegalPoachingCases: 0,
-    conservationProjects: 0,
     annualPrecipitation: 0,
     temperatureAnomaly: 0,
-    wildlifeCount: 0
+  
   });
 
   const [output, setOutput] = useState(null);
@@ -25,32 +55,46 @@ const WildlifeMonitorDashboard = () => {
     }));
   };
 
-  const analyzeWildlifeChanges = () => {
+  // Function to call the API and return the data
+ 
+
+  const analyzeWildlifeChanges = async () => {
     const {
-      deforestationRate, 
-      urbanizationRate, 
-      protectedAreaCoverage, 
-      illegalPoachingCases,
-      conservationProjects,
-      temperatureAnomaly
+      deforestationRate,
+      urbanizationRate,
+      annualPrecipitation,
+      temperatureAnomaly,
+      illegalPoachingCases
     } = inputs;
-
-    const impactScore = 
-      (deforestationRate * -2) + 
-      (urbanizationRate * -1.5) + 
-      (protectedAreaCoverage * 1) + 
-      (conservationProjects * 1.5) + 
-      (illegalPoachingCases * -1) + 
-      (temperatureAnomaly * -0.5);
-
-    const trend = impactScore > 0 ? 'Increase' : 'Decrease';
-
-    setOutput({
-      trend,
-      impactScore: Math.abs(impactScore).toFixed(2)
-    });
+  
+    const features = [
+      illegalPoachingCases,
+      deforestationRate,
+      temperatureAnomaly,
+      annualPrecipitation,
+      urbanizationRate
+    ];
+  
+    console.log(features);
+  
+    // Call the API and get the prediction data
+    const predictionData = await callWildlifeTrendEndpoint(features);
+  
+    // Ensure that the data returned from the API is valid
+    if (predictionData && predictionData.trend) {
+      setOutput({
+        trend: predictionData.trend,
+        impactScore: predictionData.impactScore || 'No data' // Handle missing impactScore
+      });
+    } else {
+      console.error("Invalid or missing data in prediction response");
+      setOutput({
+        trend: 'Error',
+        impactScore: 'Error'
+      });
+    }
   };
-
+  
   const styles = {
     container: {
       maxWidth: '1200px',
@@ -82,7 +126,6 @@ const WildlifeMonitorDashboard = () => {
     modelImage: {
       maxWidth: '130%',
       maxHeight: '300px',
-    
       borderRadius: '10px',
     },
     dashboardContainer: {
@@ -127,7 +170,6 @@ const WildlifeMonitorDashboard = () => {
       borderRadius: '10px',
       boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
     },
-   
   };
 
   return (
@@ -148,7 +190,7 @@ const WildlifeMonitorDashboard = () => {
         </div>
         <div style={styles.imageContainer}>
           <img 
-            src="" 
+            src="ww.png" 
             alt="Wildlife Ecosystem Model" 
             style={styles.modelImage}
           />

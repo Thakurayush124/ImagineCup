@@ -33,9 +33,9 @@ function App() {
           <Route path="/path-to-who-we-are" element={<About />} />
           <Route path="/path-to-success-stories" element={<Story />} />
           <Route path="/path-to-reports" element={<Coin/>} />
-          <Route path="/path-to-forestflux-" element={<Flux/>} />
-          <Route path="/path-to-lifelens" element={<Life/>} />
-          <Route path="/path-to-neptune’s-watch" element={<Aqua/>} />
+          <Route path="/path-to-forest-insight-" element={<Flux/>} />
+          <Route path="/path-to-wildtrend-" element={<Life/>} />
+          <Route path="/path-to-aquaalert" element={<Aqua/>} />
           {/* Add other routes here */}
         </Routes>
       </Router>

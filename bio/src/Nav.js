@@ -57,9 +57,9 @@ const NavHeader = () => {
       'Contact Us'
     ],
     'Models': [
-      'ForestFlux ',
-      'LifeLens',
-      'Neptune’s Watch',
+      'Forest-Insight  ',
+      'WildTrend ',
+      'AquaAlert',
       "Model 4",
       'Model 5',
     ],
@@ -129,8 +129,8 @@ const NavHeader = () => {
         <div className="banner-content">
           <div className="logo-container">
             <div className="logo">
-              CRITICAL<span className="logo-slash">\</span>ECOSYSTEM
-              <div className="logo-subtitle">PARTNERSHIP FUND</div>
+            PRAVAH<span className="logo-slash"></span>
+              <div className="logo-subtitle">Flowing Together for a Sustainable Tomorrow</div>
             </div>
           </div>
           <div className="banner-tagline">
