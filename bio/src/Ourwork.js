@@ -25,22 +25,16 @@ const OurWork = () => {
               <h2>WHAT MAKES US UNIQUE</h2>
               <div className="text-blocks">
                 <p>
-                  By supporting the development of conservation strategies driven by local input, and providing grants to 
-                  <span className="highlight"> civil society</span>—nongovernmental, private sector and academic organizations—to implement those strategies, 
-                  CEPF seeks to protect biodiversity, build local conservation leadership and nurture sustainable development. 
-                  We believe this is the most effective path to conservation and communities that flourish.
+                Our project, Pravah, distinguishes itself by seamlessly integrating advanced machine learning models with proactive community engagement to address biodiversity conservation. This dual approach ensures that technological insights are complemented by grassroots actions, creating a comprehensive strategy for environmental preservation.
                 </p>
-
                 <p>
-                  CEPF's investments are especially important because the 
-                  <span className="highlight"> biodiversity hotspots</span> are home to millions of people who are impoverished 
-                  and highly dependent on nature for survival.
+                On the technological front, Pravah employs sophisticated machine learning models to monitor various ecosystems. For instance, our BioScope model utilizes image recognition to identify and classify species, aiding in tracking biodiversity and detecting endangered species. Similarly, Forest-Insight analyzes factors such as human activity and environmental parameters to assess forest health and predict deforestation risks. These models provide real-time data and predictive analytics, enabling timely and informed decision-making in conservation efforts.
                 </p>
-
                 <p>
-                  While a lot of global conservation funding is directed to governments, experience has shown us that engaging with and 
-                  strengthening local civil society in the developing and transitional countries of the biodiversity hotspots is 
-                  <span className="highlight"> critical to the long-term</span> success of conservation.
+                Complementing our technological initiatives is Eco-Connect, our community engagement platform. Recognizing that technology alone cannot solve the biodiversity crisis, Eco-Connect fosters active participation by encouraging individuals to engage in conservation activities such as tree planting, promoting renewable energy, and waste cleanup drives. Participants earn eco-coins for completing tasks, which can be redeemed for academic credits or other rewards, thereby incentivizing sustained involvement. The platform also serves as a hub for sharing information on biodiversity, environmental initiatives, and connecting with conservationists worldwide, promoting a sense of shared responsibility and collective action.
+                </p>
+                <p>
+                By integrating these advanced monitoring tools with community-driven efforts, Pravah creates a comprehensive ecosystem where technology and human action converge to protect and restore our planet's biodiversity. This holistic approach not only enhances the accuracy and effectiveness of conservation efforts but also fosters a sense of shared responsibility and active participation among individuals and communities, making our solution both innovative and inclusive.
                 </p>
               </div>
             </section>

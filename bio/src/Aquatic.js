@@ -257,7 +257,7 @@ const AquaticMonitoring = () => {
             <ol style={styles.instructionsList}>
               <li style={styles.instructionItem}>
                 Input the water quality data :
-                Enter turbidity (NTU), pH level, salinity (ppt), water temperature (°C), and dissolved oxygen (mg/L).
+                Enter turbidity , pH level, salinity , water temperature , and dissolved oxygen .
                 
               </li>
               <li style={styles.instructionItem}>

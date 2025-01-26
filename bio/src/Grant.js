@@ -160,14 +160,15 @@ const GrantsPage = () => {
         <div style={styles.headerContent}>
           <h1 style={styles.title}>GRANTS</h1>
           <p style={styles.headerText}>
-            CEPF has funded biodiversity conservation projects old span more than 25 countries across the globe.
-            We support civil society organizations at all sizes — from farmers cooperatives and community groups
-            to universities and international nongovernmental organizations.
+          Our project, Pravah, aligns with global and regional biodiversity goals, making it eligible for several prestigious funding programs. These include:
           </p>
           <p style={styles.headerText}>
-            If this is your first time applying for a CEPF grant, the process may seem a bit daunting, so we've provided
-            guidance in three steps to help get you started.
+          Critical Ecosystem Partnership Fund (CEPF): Supporting biodiversity hotspots and sustainable community-based conservation.
           </p>
+          <p style={styles.headerText}>GEF Small Grants Programme: Empowering local communities to protect biodiversity through innovative small-scale projects.</p>
+          <p style={styles.headerText}>Wildlife Conservation Trust (WCT) - BEES Grants: Funding initiatives focused on conservation and environmental sustainability.
+          </p>
+          <p style={styles.headerText}>National and Regional Biodiversity Funds: Depending on the project's location, we aim to leverage resources offered by government agencies dedicated to biodiversity preservation.</p>
         </div>
         <img    
           src="pic6.jpg" 

@@ -1,9 +1,59 @@
 import React, { useState } from 'react';
+import axios from "axios";
 
 const HeroSection = () => {
+
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.onerror = () => {
+        setError("Failed to load image. Please try again.");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const apiKey = "CD5wfK2Z9BOgliQxrlv9"; // Replace with your API key
+    if (!selectedImage) {
+        setError("Please select an image before submitting.");
+        return;
+    }
+
+    try {
+        const base64Image = selectedImage.split(",")[1]; // Extract Base64 string
+        const response = await axios({
+            method: "POST",
+            url: "https://detect.roboflow.com/animal-detection-yolov8/1",
+            params: {
+                api_key: apiKey,
+            },
+            data: base64Image,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        });
+        console.log("API Response:", response.data);
+        // Extract only the class values from predictions
+        const classes = response.data.predictions.map((prediction) => prediction.class);
+        console.log("Detection Result:", classes);
+        setResult(classes); // Update state to only contain class names
+        setIsSubmitted(true);
+    } catch (err) {
+        console.error("Error during API call:", err.message);
+        setError("Failed to submit photo. Please try again.");
+    }
+};
 
   
   const newsItems = [
@@ -30,52 +80,9 @@ const HeroSection = () => {
     }
   ];
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-        setIsSubmitted(false);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
  
-  const handleSubmit = async () => {
-    if (selectedImage) {
-      try {
-        // Remove the data:image prefix to get the base64 encoded image
-        const base64Image = selectedImage.split(',')[1];
-  
-        // Call Roboflow API for image verification
-        const roboflowModelURL = 'https://api.roboflow.com/your_model_endpoint';  // Replace with your model URL
-        const apiKey = 'your_roboflow_api_key';  // Replace with your Roboflow API key
-  
-        const response = await fetch(roboflowModelURL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify({ image: base64Image }),
-        });
-  
-        const result = await response.json();
-  
-        if (result && result.prediction && result.prediction.label === 'animal') {
-          // If the image is verified as an animal, store it in localStorage or in memory
-          localStorage.setItem('verifiedAnimalImage', selectedImage);  // Save the base64 image string in localStorage
-          alert('Image is an animal and has been saved successfully!');
-        } else {
-          alert('The image does not contain an animal.');
-        }
-      } catch (error) {
-        console.error('Error processing image:', error);
-        alert('Failed to process image');
-      }
-    }
-  };
+
   
   return (
     <div>
@@ -122,48 +129,44 @@ const HeroSection = () => {
 
       {/* Upload Section */}
       <div className="container">
-        <div className="upload-section">
-          <h2>Upload Your Photo</h2>
-          <div className="upload-box">
-            <input 
-              type="file" 
-              id="photo-upload" 
-              accept="image/*" 
-              onChange={handleImageUpload}
-              className="file-input"
-            />
-            <label htmlFor="photo-upload" className="upload-label">
-              Choose a file
-            </label>
-            <p className="upload-text">or drag and drop here</p>
-          </div>
-        </div>
-        <div className="preview-section">
-          <h2>Preview</h2>
-          <div className="preview-box">
-            {selectedImage ? (
-              <img src={selectedImage} alt="Preview" className="preview-image" />
-            ) : (
-              <div className="placeholder">
-                No image selected
-              </div>
-            )}
-          </div>
-          {selectedImage && !isSubmitted && (
-            <button 
-              onClick={handleSubmit}
-              className="submit-button"
-            >
-              Submit Photo
-            </button>
-          )}
-          {isSubmitted && (
-            <div className="success-message">
-              Successfully submitted!
-            </div>
-          )}
+      <div className="upload-section">
+        <h2>Upload Your Photo</h2>
+        <div className="upload-box">
+          <input
+            type="file"
+            id="photo-upload"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="file-input"
+          />
+          <label htmlFor="photo-upload" className="upload-label">
+            Choose a file
+          </label>
+          <p className="upload-text">or drag and drop here</p>
         </div>
       </div>
+      <div className="preview-section">
+        <h2>Preview</h2>
+        <div className="preview-box">
+          {selectedImage ? (
+            <img src={selectedImage} alt="Preview" className="preview-image" />
+          ) : (
+            <div className="placeholder">No image selected</div>
+          )}
+        </div>
+        {error && <div className="error-message">{error}</div>}
+        {selectedImage && !isSubmitted && (
+          <button onClick={handleSubmit} className="submit-button">
+            Submit Photo
+          </button>
+        )}
+        {isSubmitted && (
+          <div className="success-message">
+            Successfully submitted! Detection Result:  <center><h2>{result[0]}</h2></center>
+          </div>
+        )}
+      </div>
+    </div>
 
       {/* News Section */}
       <div className="news-container">

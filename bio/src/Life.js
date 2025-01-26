@@ -182,7 +182,6 @@ const WildlifeMonitorDashboard = () => {
             <li>Deforestation impacts</li>
             <li>Urbanization pressures</li>
             <li>Protected area effectiveness</li>
-            <li>Human population interactions</li>
             <li>Conservation efforts</li>
             <li>Climate change indicators</li>
           </ul>
