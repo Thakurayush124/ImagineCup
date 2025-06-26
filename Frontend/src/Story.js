@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Heart, MessageCircle, User, Upload } from 'lucide-react';
+import { Camera, Heart, MessageCircle, User} from 'lucide-react';
 
 
 const initialPosts = [
