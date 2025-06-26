@@ -45,7 +45,7 @@ const AquaticMonitoring = () => {
       marginBottom: '20px',
     },
     instructionsList: {
-      listStyleType: 'none',
+      listStyleType: 'decimal',
       textAlign: 'left',
     },
     instructionItem: {
@@ -143,25 +143,6 @@ const AquaticMonitoring = () => {
     cardText: {
       fontSize: '1.1rem',
       color: '#333',
-    },
-    instructionsTitle: {
-      fontSize: '1.4rem',
-      fontWeight: 'bold',
-      color: '#4a90e2',
-      marginBottom: '20px',
-    },
-    instructionsList: {
-      listStyleType: 'decimal',
-      textAlign: 'left',
-     
-    },
-    instructionItem: {
-      fontSize: '1rem',
-      color: 'black',
-      marginBottom: '10px',
-
-      
-
     },
   };
 

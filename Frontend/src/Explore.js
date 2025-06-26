@@ -1,4 +1,3 @@
-import { Bold } from 'lucide-react';
 import React from 'react';
 
 const styles = {

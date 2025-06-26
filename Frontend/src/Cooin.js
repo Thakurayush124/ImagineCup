@@ -274,8 +274,7 @@
 
 //   const updateWeeklyStats = (task) => {
 //     const today = new Date().getDay();
-//     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    
+//     // Removed unused variable 'days'
 //     setWeeklyStats(prevStats => {
 //       const updatedStats = [...prevStats];
 //       updatedStats[today][task.title]++;
@@ -602,8 +601,6 @@ function App() {
 
   const updateWeeklyStats = (task) => {
     const today = new Date().getDay();
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    
     setWeeklyStats(prevStats => {
       const updatedStats = [...prevStats];
       updatedStats[today][task.title]++;
