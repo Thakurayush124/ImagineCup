@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN npm install
 
 # Expose port 5000
-EXPOSE 5000
+EXPOSE 5050
 
 # Command to start the Node.js server
 CMD ["node", "server.js"]
