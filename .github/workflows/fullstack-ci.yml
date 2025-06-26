@@ -1,4 +1,4 @@
-name: Fullstack CI/CD
+name: Backend CI
 
 on:
   push:
@@ -9,50 +9,16 @@ on:
 jobs:
   build-test-docker:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # ---------- Frontend ----------
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install frontend dependencies
-        working-directory: ./Frontend
-        run: npm install
-
-      - name: Build frontend
-        working-directory: ./Frontend
-        run: npm run build
-
-      - name: Build and push frontend Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./Frontend
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/naturevigil-frontend:latest
-
-      # ---------- Backend ----------
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-
-      - name: Install backend dependencies
-        working-directory: ./backend
-        run: pip install -r requirements.txt
-
-      # Add backend test command here if available, e.g.:
-      # - name: Test backend
-      #   working-directory: ./backend
-      #   run: pytest
-
-      - name: Build and push backend Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/naturevigil-backend:latest
+      - run: pip install -r requirements.txt
+      # Add your backend test command here, e.g.:
+      # - run: pytest
+      - name: Build Docker image
+        run: docker build -t naturevigil-backend .
