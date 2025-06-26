@@ -165,12 +165,12 @@ const BiodiversityHotspots = () => {
         <div className="footer-content">
           <div className="initiative-text">
             CEPF is a joint initiative of l'
-            <a href="#" className="footer-link">Agence Française de Développement</a>, 
-            <a href="#" className="footer-link">Conservation International</a>, the 
-            <a href="#" className="footer-link">European Union</a>, the 
-            <a href="#" className="footer-link">Global Environment Facility</a>, the 
-            <a href="#" className="footer-link">Government of Japan</a> and 
-            <a href="#" className="footer-link">the World Bank</a>.
+            <a href="https://example.com" className="footer-link">Agence Française de Développement</a>, 
+            <a href="https://example.com" className="footer-link">Conservation International</a>, the 
+            <a href="https://example.com" className="footer-link">European Union</a>, the 
+            <a href="https://example.com" className="footer-link">Global Environment Facility</a>, the 
+            <a href="https://example.com" className="footer-link">Government of Japan</a> and 
+            <a href="https://example.com" className="footer-link">the World Bank</a>.
           </div>
           
           <div className="language-buttons">
@@ -180,14 +180,14 @@ const BiodiversityHotspots = () => {
 
           <div className="footer-bottom">
             <div className="social-links">
-              <a href="#" className="social-link">Facebook</a>
-              <a href="#" className="social-link">Instagram</a>
-              <a href="#" className="social-link">LinkedIn</a>
-              <a href="#" className="social-link">YouTube</a>
+              <a href="https://example.com" className="social-link">Facebook</a>
+              <a href="https://example.com" className="social-link">Instagram</a>
+              <a href="https://example.com" className="social-link">LinkedIn</a>
+              <a href="https://example.com" className="social-link">YouTube</a>
             </div>
 
             <div className="newsletter-signup">
-              <a href="#" className="signup-link">
+              <a href="https://example.com" className="signup-link">
                 SIGN UP FOR THE LATEST NEWS FROM CEPF
                 <span className="arrow">→</span>
               </a>
@@ -195,8 +195,8 @@ const BiodiversityHotspots = () => {
 
             <div className="footer-meta">
               <span>©2025 Conservation International</span>
-              <a href="#" className="meta-link">Privacy Policy</a>
-              <a href="#" className="meta-link">Terms of Service</a>
+              <a href="https://example.com" className="meta-link">Privacy Policy</a>
+              <a href="https://example.com" className="meta-link">Terms of Service</a>
               <span>Built by blenderbox</span>
             </div>
           </div>

@@ -173,28 +173,28 @@ const Apply = () => {
       <div style={styles.mainGrid} className="mainGrid">
         <nav style={styles.sidebar} className="sidebar">
           <div style={styles.sectionLabel}>IN THIS SECTION</div>
-          <a href="#" style={{ ...styles.navLink, ...styles.activeNavLink }}>
+          <a href="https://example.com" style={{ ...styles.navLink, ...styles.activeNavLink }}>
             Grant
           </a>
-          <a href="#" style={styles.navLink}>
+          <a href="https://example.com" style={styles.navLink}>
             Eligibility
           </a>
-          <a href="#" style={styles.navLink}>
+          <a href="https://example.com" style={styles.navLink}>
             Before You Apply
           </a>
-          <a href="#" style={styles.navLink}>
+          <a href="https://example.com" style={styles.navLink}>
             How To Apply
           </a>
-          <a href="#" style={styles.navLink}>
+          <a href="https://example.com" style={styles.navLink}>
             Life Cycle of a Grant
           </a>
-          <a href="#" style={styles.navLink}>
+          <a href="https://example.com" style={styles.navLink}>
             What Can Be Funded?
           </a>
-          <a href="#" style={styles.navLink}>
+          <a href="https://example.com" style={styles.navLink}>
             FAQs
           </a>
-          <a href="#" style={styles.navLink}>
+          <a href="https://example.com" style={styles.navLink}>
             Downloads
           </a>
         </nav>
@@ -275,7 +275,7 @@ const Apply = () => {
         </p>
         <p className="text">
           Before submitting your letter of inquiry, we encourage you to read our{' '}
-          <a href="#" className="link">12 Tips for Starting Your Grant Idea</a>.
+          <a href="https://example.com" className="link">12 Tips for Starting Your Grant Idea</a>.
         </p>
       </section>
 
@@ -483,12 +483,12 @@ button[type="submit"]:disabled {
         <div className="footer-content">
           <div className="initiative-text">
             CEPF is a joint initiative of l'
-            <a href="#" className="footer-link">Agence Française de Développement</a>, 
-            <a href="#" className="footer-link">Conservation International</a>, the 
-            <a href="#" className="footer-link">European Union</a>, the 
-            <a href="#" className="footer-link">Global Environment Facility</a>, the 
-            <a href="#" className="footer-link">Government of Japan</a> and 
-            <a href="#" className="footer-link">the World Bank</a>.
+            <a href="https://example.com" className="footer-link">Agence Française de Développement</a>, 
+            <a href="https://example.com" className="footer-link">Conservation International</a>, the 
+            <a href="https://example.com" className="footer-link">European Union</a>, the 
+            <a href="https://example.com" className="footer-link">Global Environment Facility</a>, the 
+            <a href="https://example.com" className="footer-link">Government of Japan</a> and 
+            <a href="https://example.com" className="footer-link">the World Bank</a>.
           </div>
           
           <div className="language-buttons">
@@ -498,14 +498,14 @@ button[type="submit"]:disabled {
 
           <div className="footer-bottom">
             <div className="social-links">
-              <a href="#" className="social-link">Facebook</a>
-              <a href="#" className="social-link">Instagram</a>
-              <a href="#" className="social-link">LinkedIn</a>
-              <a href="#" className="social-link">YouTube</a>
+              <a href="https://example.com" className="social-link">Facebook</a>
+              <a href="https://example.com" className="social-link">Instagram</a>
+              <a href="https://example.com" className="social-link">LinkedIn</a>
+              <a href="https://example.com" className="social-link">YouTube</a>
             </div>
 
             <div className="newsletter-signup">
-              <a href="#" className="signup-link">
+              <a href="https://example.com" className="signup-link">
                 SIGN UP FOR THE LATEST NEWS FROM CEPF
                 <span className="arrow">→</span>
               </a>
@@ -513,8 +513,8 @@ button[type="submit"]:disabled {
 
             <div className="footer-meta">
               <span>©2025 Conservation International</span>
-              <a href="#" className="meta-link">Privacy Policy</a>
-              <a href="#" className="meta-link">Terms of Service</a>
+              <a href="https://example.com" className="meta-link">Privacy Policy</a>
+              <a href="https://example.com" className="meta-link">Terms of Service</a>
               <span>Built by blenderbox</span>
             </div>
           </div>

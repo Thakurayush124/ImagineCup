@@ -126,12 +126,12 @@ const CivilSocietyPage = () => {
       <div style={styles.mainGrid} className="mainGrid">
         <nav style={styles.sidebar} className="sidebar">
           <div style={styles.sectionLabel}>IN THIS SECTION</div>
-          <a href="#" style={{...styles.navLink, ...styles.activeNavLink}}>Our Work</a>
-          <a href="#" style={styles.navLink}>Biodiversity</a>
-          <a href="#" style={styles.navLink}>Civil Society</a>
-          <a href="#" style={styles.navLink}>Biodiversity Projects</a>
-          <a href="#" style={styles.navLink}>Regional Stories</a>
-          <a href="#" style={styles.navLink}>Ecosystem Profile Manual</a>
+          <a href="https://example.com" style={{...styles.navLink, ...styles.activeNavLink}}>Our Work</a>
+          <a href="https://example.com" style={styles.navLink}>Biodiversity</a>
+          <a href="https://example.com" style={styles.navLink}>Civil Society</a>
+          <a href="https://example.com" style={styles.navLink}>Biodiversity Projects</a>
+          <a href="https://example.com" style={styles.navLink}>Regional Stories</a>
+          <a href="https://example.com" style={styles.navLink}>Ecosystem Profile Manual</a>
         </nav>
 
         <main style={styles.mainContent} className="mainContent">
@@ -146,7 +146,7 @@ const CivilSocietyPage = () => {
           <section>
             <h2 style={styles.sectionTitle}>WHAT IS CIVIL SOCIETY?</h2>
             <p style={styles.paragraph}>
-              According to the <a href="#" style={styles.link}>United Nations</a>, civil society is the "third sector" of society, along with government and business.
+              According to the <a href="https://example.com" style={styles.link}>United Nations</a>, civil society is the "third sector" of society, along with government and business.
             </p>
             <p style={styles.paragraph}>
               From CEPF's perspective, civil society includes nongovernmental organizations, communities, indigenous peoples organizations, universities and small businesses, among others.
@@ -174,7 +174,7 @@ const CivilSocietyPage = () => {
           <section>
             <h2 style={styles.sectionTitle}>WHAT IS CIVIL SOCIETY?</h2>
             <p style={styles.paragraph}>
-              According to the <a href="#" style={styles.link}>United Nations</a>, civil society is the "third sector" of society, along with government and business.
+              According to the <a href="https://example.com" style={styles.link}>United Nations</a>, civil society is the "third sector" of society, along with government and business.
             </p>
             <p style={styles.paragraph}>
               From CEPF's perspective, civil society includes nongovernmental organizations, communities, indigenous peoples organizations, universities and small businesses, among others.
@@ -189,12 +189,12 @@ const CivilSocietyPage = () => {
         <div className="footer-content">
           <div className="initiative-text">
             CEPF is a joint initiative of l'
-            <a href="#" className="footer-link">Agence Française de Développement</a>, 
-            <a href="#" className="footer-link">Conservation International</a>, the 
-            <a href="#" className="footer-link">European Union</a>, the 
-            <a href="#" className="footer-link">Global Environment Facility</a>, the 
-            <a href="#" className="footer-link">Government of Japan</a> and 
-            <a href="#" className="footer-link">the World Bank</a>.
+            <a href="https://example.com" className="footer-link">Agence Française de Développement</a>, 
+            <a href="https://example.com" className="footer-link">Conservation International</a>, the 
+            <a href="https://example.com" className="footer-link">European Union</a>, the 
+            <a href="https://example.com" className="footer-link">Global Environment Facility</a>, the 
+            <a href="https://example.com" className="footer-link">Government of Japan</a> and 
+            <a href="https://example.com" className="footer-link">the World Bank</a>.
           </div>
           
           <div className="language-buttons">
@@ -204,14 +204,14 @@ const CivilSocietyPage = () => {
 
           <div className="footer-bottom">
             <div className="social-links">
-              <a href="#" className="social-link">Facebook</a>
-              <a href="#" className="social-link">Instagram</a>
-              <a href="#" className="social-link">LinkedIn</a>
-              <a href="#" className="social-link">YouTube</a>
+              <a href="https://example.com" className="social-link">Facebook</a>
+              <a href="https://example.com" className="social-link">Instagram</a>
+              <a href="https://example.com" className="social-link">LinkedIn</a>
+              <a href="https://example.com" className="social-link">YouTube</a>
             </div>
 
             <div className="newsletter-signup">
-              <a href="#" className="signup-link">
+              <a href="https://example.com" className="signup-link">
                 SIGN UP FOR THE LATEST NEWS FROM CEPF
                 <span className="arrow">→</span>
               </a>
@@ -219,8 +219,8 @@ const CivilSocietyPage = () => {
 
             <div className="footer-meta">
               <span>©2025 Conservation International</span>
-              <a href="#" className="meta-link">Privacy Policy</a>
-              <a href="#" className="meta-link">Terms of Service</a>
+              <a href="https://example.com" className="meta-link">Privacy Policy</a>
+              <a href="https://example.com" className="meta-link">Terms of Service</a>
               <span>Built by blenderbox</span>
             </div>
           </div>

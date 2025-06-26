@@ -135,11 +135,11 @@ const BioPage = () => {
         {/* Sidebar */}
         <nav style={styles.sidebar} className="sidebar">
           <div style={styles.sectionLabel}>IN THIS SECTION</div>
-          <a href="#" style={{...styles.navLink, ...styles.activeNavLink}}>Our Work</a>
-          <a href="#" style={styles.navLink}>Biodiversity</a>
-          <a href="#" style={styles.navLink}>Our Study</a>
-          <a href="#" style={styles.navLink}>Biodiversity Projects</a>
-          <a href="#" style={styles.navLink}>Regional Stories</a>
+          <a href="https://example.com" style={{...styles.navLink, ...styles.activeNavLink}}>Our Work</a>
+          <a href="https://example.com" style={styles.navLink}>Biodiversity</a>
+          <a href="https://example.com" style={styles.navLink}>Our Study</a>
+          <a href="https://example.com" style={styles.navLink}>Biodiversity Projects</a>
+          <a href="https://example.com" style={styles.navLink}>Regional Stories</a>
         </nav>
 
         {/* Main content */}
@@ -230,12 +230,12 @@ const BioPage = () => {
         <div className="footer-content">
           <div className="initiative-text">
             CEPF is a joint initiative of l'
-            <a href="#" className="footer-link">Agence Française de Développement</a>, 
-            <a href="#" className="footer-link">Conservation International</a>, the 
-            <a href="#" className="footer-link">European Union</a>, the 
-            <a href="#" className="footer-link">Global Environment Facility</a>, the 
-            <a href="#" className="footer-link">Government of Japan</a> and 
-            <a href="#" className="footer-link">the World Bank</a>.
+            <a href="https://example.com" className="footer-link">Agence Française de Développement</a>, 
+            <a href="https://example.com" className="footer-link">Conservation International</a>, the 
+            <a href="https://example.com" className="footer-link">European Union</a>, the 
+            <a href="https://example.com" className="footer-link">Global Environment Facility</a>, the 
+            <a href="https://example.com" className="footer-link">Government of Japan</a> and 
+            <a href="https://example.com" className="footer-link">the World Bank</a>.
           </div>
           
           <div className="language-buttons">
@@ -245,14 +245,14 @@ const BioPage = () => {
 
           <div className="footer-bottom">
             <div className="social-links">
-              <a href="#" className="social-link">Facebook</a>
-              <a href="#" className="social-link">Instagram</a>
-              <a href="#" className="social-link">LinkedIn</a>
-              <a href="#" className="social-link">YouTube</a>
+              <a href="https://example.com" className="social-link">Facebook</a>
+              <a href="https://example.com" className="social-link">Instagram</a>
+              <a href="https://example.com" className="social-link">LinkedIn</a>
+              <a href="https://example.com" className="social-link">YouTube</a>
             </div>
 
             <div className="newsletter-signup">
-              <a href="#" className="signup-link">
+              <a href="https://example.com" className="signup-link">
                 SIGN UP FOR THE LATEST NEWS FROM CEPF
                 <span className="arrow">→</span>
               </a>
@@ -260,8 +260,8 @@ const BioPage = () => {
 
             <div className="footer-meta">
               <span>©2025 Conservation International</span>
-              <a href="#" className="meta-link">Privacy Policy</a>
-              <a href="#" className="meta-link">Terms of Service</a>
+              <a href="https://example.com" className="meta-link">Privacy Policy</a>
+              <a href="https://example.com" className="meta-link">Terms of Service</a>
               <span>Built by blenderbox</span>
             </div>
           </div>
