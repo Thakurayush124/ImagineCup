@@ -17,8 +17,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - run: pip install -r requirements.txt
-      # Add your backend test command here, e.g.:
-      # - run: pytest
+      - name: Test backend
+        run: pytest
+      - name: Lint backend code
+        run: pip install flake8 && flake8 .
       - name: Build Docker image
         run: docker build -t naturevigil-backend .
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/naturevigil-backend:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/naturevigil-backend:latest
