@@ -46,6 +46,31 @@ python app.py
 
 text
 
+## CI/CD Pipeline
+
+This project uses a professional CI/CD pipeline powered by GitHub Actions.
+
+- **Automatic Testing:** All backend models are tested using `pytest` on every push and pull request.
+- **Linting:** Code style is checked with `flake8`.
+- **Docker Build & Push:** If tests pass, a Docker image is built and pushed to DockerHub automatically.
+
+![CI/CD Pipeline](img/ci-cd.png)
+
+### How it Works
+
+1. **Code Checkout:** The workflow checks out the latest code.
+2. **Dependency Installation:** Installs all Python dependencies.
+3. **Testing:** Runs all backend tests in the `tests/` directory.
+4. **Linting:** Checks code style with `flake8`.
+5. **Docker Build:** Builds a Docker image for the backend.
+6. **DockerHub Push:** Pushes the image to DockerHub for deployment.
+
+This ensures that every change is tested, linted, and ready to deploy with no manual steps.
+
+---
+
+*For more details, see the workflow file in `.github/workflows/fullstack-ci.yml`.*
+
 ### License
 
 Distributed under the MIT License. See `LICENSE` for more information.
